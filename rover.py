@@ -4,7 +4,6 @@ startx = 0
 starty = 0
 
 
-
 class Rover:
     # Rover Constructor
     def __init__ (self, x, y, heading):
@@ -48,33 +47,22 @@ class Rover:
         self.x = self.x + coords[0]
         self.y = self.y + coords[1]
 
+    def operate(self, instructions):
+        for action in instructions:
+            # TODO: Error trap for non-LRM actions
+            if action == 'M':
+                self.move()
+            else:
+                self.turn(action)
+
     def getposition(self):
         print(str(self.x) + ' ' + str(self.y) + ' ' + str(self.heading))
 
 
 oneRover = Rover(1, 2, 'N')
-# LMLMLMLMM
-oneRover.turn('L')
-oneRover.move()
-oneRover.turn('L')
-oneRover.move()
-oneRover.turn('L')
-oneRover.move()
-oneRover.turn('L')
-oneRover.move()
-oneRover.move()
+oneRover.operate('LMLMLMLMM')
 oneRover.getposition()
 
 twoRover = Rover(3, 3, 'E')
-# MMRMMRMRRM
-twoRover.move()
-twoRover.move()
-twoRover.turn('R')
-twoRover.move()
-twoRover.move()
-twoRover.turn('R')
-twoRover.move()
-twoRover.turn('R')
-twoRover.turn('R')
-twoRover.move()
+twoRover.operate('MMRMMRMRRM')
 twoRover.getposition()
