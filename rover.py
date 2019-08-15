@@ -1,13 +1,60 @@
 import unittest
 
-maxx = 5
-maxy = 5
-startx = 0
-starty = 0
+class NASA:
+    """
+    The NASA class is the main automation of the program, getting the initial dimensions of the plateau and running the
+    Mars Rovers
+    """
+
+    def __init__(self):
+        self.maxx = 0
+        self.maxy = 0
+        self.startx = 0
+        self.starty = 0
+
+    def start(self):
+        # Welcome
+        print('** Welcome to NASA\'s Rover Program **')
+
+        # Get the maximum coordinates of the plateau
+        plateaucoords = input("Enter the plateau\'s maximum coordinates in 'X Y' format:\n")
+        # Set the maximum coordinates of the plateau
+        self.setplateau(plateaucoords)
+
+        # Get rover inputs
+        roveronestart = input("Enter Rover One\'s start coordinates and heading in 'X Y H' format:\n")
+        roveroneinstructions = input("Enter Rover One\'s start coordinates consisting of L, R and M in a string:\n")
+        rovertwostart = input("Enter Rover Two\'s start coordinates and heading in 'X Y H' format:\n")
+        rovertwoinstructions = input("Enter Rover Two\'s start coordinates consisting of L, R and M in a string:\n")
+
+        # Set up the rovers
+        roverone = Rover()
+        roverone.setstart(roveronestart)
+        roverone.setoperations(roveroneinstructions)
+        rovertwo = Rover()
+        rovertwo.setstart(rovertwostart)
+        rovertwo.setoperations(rovertwoinstructions)
+
+        # Run the rovers
+        roverone.operate()
+        rovertwo.operate()
+
+        # Print results
+        print(roverone.getposition())
+        print(rovertwo.getposition())
+
+    def setplateau(self, plateausize):
+        # TODO: Handle non standard input
+        plateauarray = plateausize.split(' ')
+        self.maxx = plateauarray[0]
+        self.maxy = plateauarray[1]
 
 
 class Rover:
-    # Rover Constructor
+    """
+    The Rover Class handles all operations of a rover inside the Plateau
+    """
+
     def __init__(self):
         self.x = 0
         self.y = 0
@@ -95,5 +142,10 @@ class RoversUnitTest(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    # Comment the below to ignore user input
+    mynasa = NASA()
+    mynasa.start()
+
+    # Uncomment this to run the unit tests
+    #unittest.main()
 
