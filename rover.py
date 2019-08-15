@@ -1,3 +1,5 @@
+import unittest
+
 maxx = 5
 maxy = 5
 startx = 0
@@ -6,13 +8,23 @@ starty = 0
 
 class Rover:
     # Rover Constructor
-    def __init__ (self, x, y, heading):
-        # A rover has a starting x, y and heading, as well as 4 cardinal directions it can travel
-        self.x = x
-        self.y = y
-        self.heading = heading
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+        self.heading = 'N'
         # Define the heading constraints; realistically this could be expanded to include NE, SW etc.
         self.headings = ['N', 'E', 'S', 'W']
+
+    def setstart(self, userinput):
+        # TODO: Handle inputs of more or less than 3 vars
+        inputarray = userinput.split(' ')
+
+        self.x = int(inputarray[0])
+        self.y = int(inputarray[1])
+        self.heading = inputarray[2]
+
+    def setoperations(self, operations):
+        self.operations = operations
 
     def turn(self, direction):
         # Assume the direction is (R)ight
@@ -47,8 +59,8 @@ class Rover:
         self.x = self.x + coords[0]
         self.y = self.y + coords[1]
 
-    def operate(self, instructions):
-        for action in instructions:
+    def operate(self):
+        for action in self.operations:
             # TODO: Error trap for non-LRM actions
             if action == 'M':
                 self.move()
@@ -56,13 +68,32 @@ class Rover:
                 self.turn(action)
 
     def getposition(self):
-        print(str(self.x) + ' ' + str(self.y) + ' ' + str(self.heading))
+        return str(self.x) + ' ' + str(self.y) + ' ' + str(self.heading)
 
 
-oneRover = Rover(1, 2, 'N')
-oneRover.operate('LMLMLMLMM')
-oneRover.getposition()
+class RoversUnitTest(unittest.TestCase):
+    def test_1(self):
+        # Prepare and run Rover One
+        oneRover = Rover()
+        oneRover.setstart('1 2 N')
+        oneRover.setoperations('LMLMLMLMM')
+        oneRover.operate()
+        # Prepare and run Rover Two
+        twoRover = Rover()
+        twoRover.setstart('3 3 E')
+        twoRover.setoperations('MMRMMRMRRM')
+        twoRover.operate()
+        # Get rover outputs
+        output1 = oneRover.getposition()
+        output2 = twoRover.getposition()
+        # Expected results
+        expected1 = "1 3 N"
+        expected2 = "5 1 E"
+        # Test results
+        self.assertEqual(output1, expected1)
+        self.assertEqual(output2, expected2)
 
-twoRover = Rover(3, 3, 'E')
-twoRover.operate('MMRMMRMRRM')
-twoRover.getposition()
+
+if __name__ == '__main__':
+    unittest.main()
+
