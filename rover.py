@@ -20,6 +20,7 @@ class NASA:
         plateaucoords = input("Enter the plateau\'s maximum coordinates in 'X Y' format:\n")
         # Set the maximum coordinates of the plateau
         self.setplateau(plateaucoords)
+        plateau = self.getplateau()
 
         # Get rover inputs
         roveronestart = input("Enter Rover One\'s start coordinates and heading in 'X Y H' format:\n")
@@ -28,7 +29,7 @@ class NASA:
         rovertwoinstructions = input("Enter Rover Two\'s start coordinates consisting of L, R and M in a string:\n")
 
         # Set up the rovers
-        roverone = Rover()
+        roverone = Rover(plateau[0], plateau[1])
         roverone.setstart(roveronestart)
         roverone.setoperations(roveroneinstructions)
         rovertwo = Rover()
@@ -44,10 +45,18 @@ class NASA:
         print(rovertwo.getposition())
 
     def setplateau(self, plateausize):
-        # TODO: Handle non standard input
+        # Split the input into an array
         plateauarray = plateausize.split(' ')
-        self.maxx = plateauarray[0]
-        self.maxy = plateauarray[1]
+        # Checks the size of the generated array
+        if len(plateauarray) != 2:
+            raise Exception('Plateau coordinates input incorrect. Please start again')
+            exit(1)
+
+        self.maxx = int(plateauarray[0])
+        self.maxy = int(plateauarray[1])
+
+    def getplateau(self):
+        return [self.maxx, self.maxy]
 
 
 class Rover:
@@ -55,16 +64,22 @@ class Rover:
     The Rover Class handles all operations of a rover inside the Plateau
     """
 
-    def __init__(self):
+    def __init__(self, maxx, maxy):
         self.x = 0
         self.y = 0
+        self.maxx = maxx
+        self.maxy = maxy
         self.heading = 'N'
         # Define the heading constraints; realistically this could be expanded to include NE, SW etc.
         self.headings = ['N', 'E', 'S', 'W']
 
     def setstart(self, userinput):
-        # TODO: Handle inputs of more or less than 3 vars
+        # Split the input into an array
         inputarray = userinput.split(' ')
+        # Checks that 3 variables came in the input string
+        if len(inputarray) != 3:
+            raise Exception('Rover inputs invalid. Please start again.')
+            exit(1)
 
         self.x = int(inputarray[0])
         self.y = int(inputarray[1])
@@ -103,8 +118,25 @@ class Rover:
         # Get the current heading's x,y coord change rules
         coords = rules[self.heading]
         # Modify the coordinates
-        self.x = self.x + coords[0]
-        self.y = self.y + coords[1]
+        newx = self.x + coords[0]
+        newy = self.y + coords[1]
+        # Validate that the move is within bounds, then assign the new x and y values
+        if self.validatemove(newx, newy):
+            self.x = newx
+            self.y = newy
+        else:
+            raise Exception('Error: Rover out of bounds at ' + str(newx) + ' ' + str(newy))
+            exit(1)
+
+    def validatemove(self, x, y):
+        # Check that the x and y are not in the negative
+        if x < 0 or y < 0:
+            return False
+        # Check that x and y do not exceed the maximum coordinates
+        if x > self.maxx or y > self.maxy:
+            return False
+
+        return True
 
     def operate(self):
         for action in self.operations:
@@ -120,13 +152,13 @@ class Rover:
 
 class RoversUnitTest(unittest.TestCase):
     def test_1(self):
-        # Prepare and run Rover One
-        oneRover = Rover()
+        # Prepare and run Rover One on 5 5 plateau
+        oneRover = Rover(5, 5)
         oneRover.setstart('1 2 N')
         oneRover.setoperations('LMLMLMLMM')
         oneRover.operate()
-        # Prepare and run Rover Two
-        twoRover = Rover()
+        # Prepare and run Rover Two on 5 5 plateau
+        twoRover = Rover(5, 5)
         twoRover.setstart('3 3 E')
         twoRover.setoperations('MMRMMRMRRM')
         twoRover.operate()
@@ -143,9 +175,9 @@ class RoversUnitTest(unittest.TestCase):
 
 if __name__ == '__main__':
     # Comment the below to ignore user input
-    mynasa = NASA()
-    mynasa.start()
+    #mynasa = NASA()
+    #mynasa.start()
 
     # Uncomment this to run the unit tests
-    #unittest.main()
+    unittest.main()
 
