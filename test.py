@@ -2,6 +2,7 @@ import unittest
 from rover import Rover
 from mars import NASA
 
+
 class RoversUnitTest(unittest.TestCase):
     # Tests the primary conditions of the challenge
     def test_1(self):
@@ -28,36 +29,28 @@ class RoversUnitTest(unittest.TestCase):
         # Test results
         self.assertEqual(output2, expected2)
 
-    # Test to check for invalid operations characters
+    # Test to check the rover for invalid operations characters, including out of bounds
     def test_3(self):
         rover = Rover(5, 5)
-        self.assertRaises(Exception, rover.setoperations, str("MMRMKLMMLM"))
+        self.assertRaises(Exception, rover.setoperations, str("MMRMKLMMLM"))    # invalid character in commands
+        rover.setstart('1 1 N')                                     # start the rover at 1 1
+        rover.setoperations('MMMMMM')                               # move the rover out of bounds
+        self.assertRaises(Exception, rover.operate)                 # execute the operation and throw an error
 
-    # Test that an exception is raised if the rover goes out of bounds
+    # Test that an exception is raised if the plateau input has additional or incorrect parameters
     def test_4(self):
-        rover = Rover(5, 5)
-        rover.setstart('1 1 N')
-        rover.setoperations('MMMMMM')
-        self.assertRaises(Exception, rover.operate)
-
-    # Test that an exception is raised if the plateau does not have an x and a y coordinate
-    def test_5(self):
         nasa = NASA()
-        self.assertRaises(Exception, nasa.setplateau, "55")
-    # Test that an exception is raised if the plateau input has additional parameters
-    def test_6(self):
-        nasa = NASA()
-        self.assertRaises(Exception, nasa.setplateau, "5 6 1")
-
-    # Test that an exception is raised if coordinates are < 1
-    def test_7(self):
-        nasa = NASA()
-        self.assertRaises(Exception, nasa.setplateau, "-1 5")
+        self.assertRaises(Exception, nasa.setplateau, "55")         # insufficient input
+        self.assertRaises(Exception, nasa.setplateau, "5 6 1")      # too much input
+        self.assertRaises(Exception, nasa.setplateau, "-1 5")       # negative input in first field
+        self.assertRaises(Exception, nasa.setplateau, "1 -5")       # negative input in second field
+        self.assertRaises(Exception, nasa.setplateau, "5 5 5 5")    # too much input
 
     # Test for invalid rover start input
-    def test_8(self):
+    def test_7(self):
         rover = Rover(5, 5)
-        self.assertRaises(Exception, rover.setstart, '4 1 D')
+        self.assertRaises(Exception, rover.setstart, '4 1 D')       # invalid direction in command
+        self.assertRaises(Exception, rover.setstart, '4 E')         # insufficient input
 
 
 if __name__ == '__main__':
