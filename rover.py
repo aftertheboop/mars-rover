@@ -1,3 +1,5 @@
+import re
+
 class Rover:
     """
     The Rover Class handles all operations of a rover inside the Plateau
@@ -11,6 +13,7 @@ class Rover:
         self.heading = 'N'
         # Define the heading constraints; realistically this could be expanded to include NE, SW etc.
         self.headings = ['N', 'E', 'S', 'W']
+        self.operations = ''
 
     def setstart(self, userinput):
         # Split the input into an array
@@ -25,6 +28,11 @@ class Rover:
         self.heading = inputarray[2]
 
     def setoperations(self, operations):
+        reg = re.compile('^[LRM]+$')
+
+        if bool(re.match('^[LRM]+$', operations)) == False:
+            raise Exception('The operations command contains invalid characters')
+
         self.operations = operations
 
     def turn(self, direction):
@@ -79,7 +87,6 @@ class Rover:
 
     def operate(self):
         for action in self.operations:
-            # TODO: Error trap for non-LRM actions
             if action == 'M':
                 self.move()
             else:

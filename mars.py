@@ -1,5 +1,5 @@
-import unittest
 from rover import Rover
+
 
 class NASA:
     """
@@ -60,36 +60,9 @@ class NASA:
         return [self.maxx, self.maxy]
 
 
-class RoversUnitTest(unittest.TestCase):
-    def test_1(self):
-        # Prepare and run Rover One on 5 5 plateau
-        oneRover = Rover(5, 5)
-        oneRover.setstart('1 2 N')
-        oneRover.setoperations('LMLMLMLMM')
-        oneRover.operate()
-        output1 = oneRover.getposition()
-        expected1 = "1 3 N"
-        self.assertEqual(output1, expected1)
-
-    def test_2(self):
-        # Prepare and run Rover Two on 5 5 plateau
-        twoRover = Rover(5, 5)
-        twoRover.setstart('3 3 E')
-        twoRover.setoperations('MMRMMRMRRM')
-        twoRover.operate()
-        # Get rover outputs
-        output2 = twoRover.getposition()
-        # Expected results
-        expected2 = "5 1 E"
-        # Test results
-        self.assertEqual(output2, expected2)
-
-
 if __name__ == '__main__':
     # Comment the below to ignore user input
-    #mynasa = NASA()
-    #mynasa.start()
+    mynasa = NASA()
+    mynasa.start()
 
-    # Uncomment this to run the unit tests
-    unittest.main()
 
