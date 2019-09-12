@@ -25,7 +25,7 @@ class NASA:
 
         # Get rover inputs
         roveronestart = input("Enter Rover One\'s start coordinates and heading in 'X Y H' format:\n")
-        roveroneinstructions = input("Enter Rover One\'s start coordinates consisting of L, R and M in a string:\n")
+        roveroneinstructions = input("Enter Rover One\'s instructions consisting of L, R and M in a string:\n")
         # rovertwostart = input("Enter Rover Two\'s start coordinates and heading in 'X Y H' format:\n")
         # rovertwoinstructions = input("Enter Rover Two\'s start coordinates consisting of L, R and M in a string:\n")
 
