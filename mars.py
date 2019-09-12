@@ -1,3 +1,4 @@
+import re
 from rover import Rover
 
 
@@ -24,28 +25,26 @@ class NASA:
         plateau = self.getplateau()
 
         # Get rover inputs
-        roveronestart = input("Enter Rover One\'s start coordinates and heading in 'X Y H' format:\n")
-        roveroneinstructions = input("Enter Rover One\'s instructions consisting of L, R and M in a string:\n")
+        roverstart = input("Enter the Rover\'s start coordinates and heading in 'X Y H' format:\n")
+        roverinstructions = input("Enter the Rover\'s instructions consisting of L, R and M in a string:\n")
         # rovertwostart = input("Enter Rover Two\'s start coordinates and heading in 'X Y H' format:\n")
         # rovertwoinstructions = input("Enter Rover Two\'s start coordinates consisting of L, R and M in a string:\n")
 
         # Set up the rovers
-        roverone = Rover(plateau[0], plateau[1])
-        roverone.setstart(roveronestart)
-        roverone.setoperations(roveroneinstructions)
-        #rovertwo = Rover()
-        #rovertwo.setstart(rovertwostart)
-        #rovertwo.setoperations(rovertwoinstructions)
+        rover = Rover(plateau[0], plateau[1])
+        rover.setstart(roverstart)
+        rover.setoperations(roverinstructions)
 
         # Run the rovers
-        roverone.operate()
-        #rovertwo.operate()
+        rover.operate()
 
         # Print results
-        print(roverone.getposition())
-        #print(rovertwo.getposition())
+        print(rover.getposition())
 
     def setplateau(self, plateausize):
+        if bool(re.match('^[1-9 ]+$', plateausize)) is False:
+            raise Exception('Non-numeric plateau coordinates')
+            exit(1)
         # Split the input into an array
         plateauarray = plateausize.split(' ')
         # Checks the size of the generated array
