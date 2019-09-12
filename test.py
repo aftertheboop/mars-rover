@@ -51,7 +51,7 @@ class RoversUnitTest(unittest.TestCase):
         self.assertRaises(Exception, nasa.setplateau, "1 E")        # non-numeric input
 
     # Test for invalid rover start input
-    def test_7(self):
+    def test_5(self):
         rover = Rover(5, 5)
         self.assertRaises(Exception, rover.setstart, '4 1 D')       # invalid direction in command
         self.assertRaises(Exception, rover.setstart, '4 E')         # insufficient input

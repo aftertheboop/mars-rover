@@ -1,5 +1,6 @@
 import re
 
+
 class Rover:
     """
     The Rover Class handles all operations of a rover inside the Plateau
