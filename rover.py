@@ -30,6 +30,7 @@ class Rover:
     def setoperations(self, operations):
         if bool(re.match('^[LRM]+$', operations)) == False:
             raise Exception('The operations command contains invalid characters')
+            exit(1)
 
         self.operations = operations
 

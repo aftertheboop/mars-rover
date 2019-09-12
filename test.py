@@ -33,7 +33,12 @@ class RoversUnitTest(unittest.TestCase):
         rover = Rover(5, 5)
         self.assertRaises(Exception, rover.setoperations, str("MMRMKLMMLM"))
 
-
+    # Test that an exception is raised if the rover goes out of bounds
+    def test_4(self):
+        rover = Rover(5, 5)
+        rover.setstart('1 1 N')
+        rover.setoperations('MMMMMM')
+        self.assertRaises(Exception, rover.operate)
 
 
 if __name__ == '__main__':
