@@ -11,7 +11,7 @@ Enter the plateau's maximum coordinates in 'X Y' format
 Enter the Rover's start coordinates and heading in 'X Y H' format:  
 `> 1 2 E`  
 Enter the Rover's instructions consisting of L, R and M in a string:  
-`MMLMRMMRRMML`  
+`> MMLMRMMRRMML`  
 **Final Output**  
 `> 3 3 S`  
 
