@@ -34,8 +34,11 @@ class RoversUnitTest(unittest.TestCase):
         rover = Rover(5, 5)
         self.assertRaises(Exception, rover.setoperations, str("MMRMKLMMLM"))    # invalid character in commands
         rover.setstart('1 1 N')                                     # start the rover at 1 1
-        rover.setoperations('MMMMMM')                               # move the rover out of bounds
+        rover.setoperations('MMMMMM')                               # move the rover out of bounds positively
         self.assertRaises(Exception, rover.operate)                 # execute the operation and throw an error
+        rover.setstart('1 1 S')                                     # start the rover at 1 1 facing south
+        rover.setoperations('MMM')                                  # move 3 spaces down
+        self.assertRaises(Exception, rover.operate)                 # check for a negative exception
 
     # Test that an exception is raised if the plateau input has additional or incorrect parameters
     def test_4(self):
@@ -45,6 +48,7 @@ class RoversUnitTest(unittest.TestCase):
         self.assertRaises(Exception, nasa.setplateau, "-1 5")       # negative input in first field
         self.assertRaises(Exception, nasa.setplateau, "1 -5")       # negative input in second field
         self.assertRaises(Exception, nasa.setplateau, "5 5 5 5")    # too much input
+        self.assertRaises(Exception, nasa.setplateau, "1 E")        # non-numeric input
 
     # Test for invalid rover start input
     def test_7(self):
