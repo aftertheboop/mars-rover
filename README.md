@@ -14,4 +14,4 @@ MMLMRMMRRMML
 `> 3 3 S`
 
 ## Testing
-Run unit tests from the command line with `python test.py`
+Run unit tests from the command line with `python test.py`  
