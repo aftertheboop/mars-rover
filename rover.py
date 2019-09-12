@@ -28,8 +28,6 @@ class Rover:
         self.heading = inputarray[2]
 
     def setoperations(self, operations):
-        reg = re.compile('^[LRM]+$')
-
         if bool(re.match('^[LRM]+$', operations)) == False:
             raise Exception('The operations command contains invalid characters')
 
