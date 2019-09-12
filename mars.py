@@ -26,24 +26,24 @@ class NASA:
         # Get rover inputs
         roveronestart = input("Enter Rover One\'s start coordinates and heading in 'X Y H' format:\n")
         roveroneinstructions = input("Enter Rover One\'s start coordinates consisting of L, R and M in a string:\n")
-        rovertwostart = input("Enter Rover Two\'s start coordinates and heading in 'X Y H' format:\n")
-        rovertwoinstructions = input("Enter Rover Two\'s start coordinates consisting of L, R and M in a string:\n")
+        # rovertwostart = input("Enter Rover Two\'s start coordinates and heading in 'X Y H' format:\n")
+        # rovertwoinstructions = input("Enter Rover Two\'s start coordinates consisting of L, R and M in a string:\n")
 
         # Set up the rovers
         roverone = Rover(plateau[0], plateau[1])
         roverone.setstart(roveronestart)
         roverone.setoperations(roveroneinstructions)
-        rovertwo = Rover()
-        rovertwo.setstart(rovertwostart)
-        rovertwo.setoperations(rovertwoinstructions)
+        #rovertwo = Rover()
+        #rovertwo.setstart(rovertwostart)
+        #rovertwo.setoperations(rovertwoinstructions)
 
         # Run the rovers
         roverone.operate()
-        rovertwo.operate()
+        #rovertwo.operate()
 
         # Print results
         print(roverone.getposition())
-        print(rovertwo.getposition())
+        #print(rovertwo.getposition())
 
     def setplateau(self, plateausize):
         # Split the input into an array
@@ -51,6 +51,11 @@ class NASA:
         # Checks the size of the generated array
         if len(plateauarray) != 2:
             raise Exception('Plateau coordinates input incorrect. Please start again')
+            exit(1)
+
+        # Checks that the coordinates are not negative
+        if int(plateauarray[0]) < 1 or int(plateauarray[1]) < 1:
+            raise Exception('Plateau coordinates cannot be negative')
             exit(1)
 
         self.maxx = int(plateauarray[0])

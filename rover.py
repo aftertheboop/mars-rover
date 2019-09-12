@@ -16,6 +16,10 @@ class Rover:
         self.operations = ''
 
     def setstart(self, userinput):
+        # Check for invalid user input
+        if bool(re.match('^[0-9 NESW]+$', userinput)) == False:
+            raise Exception('The rover start command contains invalid characters')
+            exit(1)
         # Split the input into an array
         inputarray = userinput.split(' ')
         # Checks that 3 variables came in the input string
