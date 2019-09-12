@@ -17,7 +17,7 @@ class Rover:
 
     def setstart(self, userinput):
         # Check for invalid user input
-        if bool(re.match('^[0-9 NESW]+$', userinput)) == False:
+        if bool(re.match('^[0-9 NESW]+$', userinput)) is False:
             raise Exception('The rover start command contains invalid characters')
             exit(1)
         # Split the input into an array
@@ -32,7 +32,8 @@ class Rover:
         self.heading = inputarray[2]
 
     def setoperations(self, operations):
-        if bool(re.match('^[LRM]+$', operations)) == False:
+        # Check for non L, R or M characters in the input string
+        if bool(re.match('^[LRM]+$', operations)) is False:
             raise Exception('The operations command contains invalid characters')
             exit(1)
 
@@ -57,6 +58,7 @@ class Rover:
         # Set the new heading
         self.heading = self.headings[newheading]
 
+    # Move the rover based on the operations
     def move(self):
         # Create a dictionary with x,y movement coordinates
         rules = {
@@ -78,6 +80,7 @@ class Rover:
             raise Exception('Error: Rover out of bounds at ' + str(newx) + ' ' + str(newy))
             exit(1)
 
+    # Validate that the move is not out of bounds
     def validatemove(self, x, y):
         # Check that the x and y are not in the negative
         if x < 0 or y < 0:
@@ -88,13 +91,16 @@ class Rover:
 
         return True
 
+    # Perform each operation in sequence
     def operate(self):
+        # Loop through each character in the string, either turning or moving
         for action in self.operations:
             if action == 'M':
                 self.move()
             else:
                 self.turn(action)
 
+    # Get the final position of the rover as a string of 'X Y H'
     def getposition(self):
         return str(self.x) + ' ' + str(self.y) + ' ' + str(self.heading)
 
